@@ -16,6 +16,7 @@ SKIP: {
     my $db = Search::InvertedIndex::DB::Pg->new(
         -db_name    => $conf{dbname},
         -hostname   => $conf{dbhost},
+        -port       => $conf{dbport},
         -username   => $conf{dbuser},
         -password   => $conf{dbpass},
         -table_name => "siindex",

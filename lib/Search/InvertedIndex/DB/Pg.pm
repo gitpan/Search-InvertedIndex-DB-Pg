@@ -2,7 +2,7 @@ package Search::InvertedIndex::DB::Pg;
 
 use strict;
 use vars qw( $VERSION );
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 use Carp "croak";
 use DBI;
@@ -20,6 +20,7 @@ Search::InvertedIndex::DB::Pg - A Postgres backend for Search::InvertedIndex.
   my $db = Search::InvertedIndex::DB::Pg->new(
         -db_name    => "testdb",
         -hostname   => "test.example.com",
+        -port       => 5432,
         -username   => "testuser",
         -password   => "testpass",
         -table_name => "siindex",
@@ -44,6 +45,7 @@ C<new> is called.
   my $db = Search::InvertedIndex::DB::Pg->new(
         -db_name    => "testdb",
         -hostname   => "test.example.com",
+        -port       => 5432,
         -username   => "testuser",
         -password   => "testpass",
         -table_name => "siindex",
@@ -51,6 +53,7 @@ C<new> is called.
   );
 
 C<-db_name> and C<-table_name> are mandatory.  C<-lock_mode> defaults to C<EX>.
+C<-port is optional> and defaults to not being specified..
 
 =cut
 
@@ -64,10 +67,10 @@ sub new {
     }
     $args{-lock_mode} ||= "EX";
 
-    foreach my $param ( qw( -db_name -hostname -username -password
+    foreach my $param ( qw( -db_name -hostname -port -username -password
                             -table_name -lock_mode ) ) {
         $self->{$param} = $args{$param};
-    }
+      }
 
     return $self;
 }
@@ -87,6 +90,7 @@ sub open {
     my $self = shift;
     my $db_name    = $self->{-db_name};
     my $hostname   = $self->{-hostname};
+    my $port       = $self->{-port};
     my $username   = $self->{-username};
     my $password   = $self->{-password};
     my $table_name = $self->{-table_name};
@@ -94,6 +98,7 @@ sub open {
 
     my $dsn = "dbi:Pg:dbname=$db_name";
     $dsn .= ";host=$hostname" if $hostname;
+    $dsn .= ";port=$port"     if $port;
 
     my $dbh = DBI->connect( $dsn, $username, $password,
                             { AutoCommit => 0 } )#turn off autocommit for speed
@@ -374,10 +379,15 @@ L<Search::InvertedIndex::DB::DB_File_SplitHash> by Benjamin Franz.
 
 =head1 COPYRIGHT
 
-     Copyright (C) 2003 Kake Pugh.  All Rights Reserved.
+     Copyright (C) 2003-4 Kake Pugh.  All Rights Reserved.
 
 This module is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
+
+=head1 CREDITS
+
+Module based on work by Michael Cramer and Benjamin Franz.  Patch from
+Cees Hek.
 
 =head1 SEE ALSO
 

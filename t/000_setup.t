@@ -11,6 +11,7 @@ SKIP: {
     require DBI;
     my $dsn = "dbi:Pg:dbname=$conf{dbname}";
     $dsn .= ";host=$conf{dbhost}" if $conf{dbhost};
+    $dsn .= ";port=$conf{dbport}" if $conf{dbport};
     my $dbh = DBI->connect( $dsn, $conf{dbuser}, $conf{dbpass} );
 
     my $sth = $dbh->prepare(

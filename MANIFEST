@@ -1,3 +1,4 @@
+Changes
 MANIFEST
 Makefile.PL
 README
@@ -11,3 +12,4 @@ t/015_indexes.t
 t/016_entries_add_delete.t
 t/018_update.t
 t/test.lib
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -23,7 +23,7 @@ if ( $@ ) {
 
     );
     print "To skip the tests, accept 'undef' for the database name.\n";
-    my ($dbname, $dbuser, $dbpass, $dbhost);
+    my ($dbname, $dbuser, $dbpass, $dbhost, $dbport);
     $dbname = prompt "\nDatabase name for testing: ", "undef";
     $dbname = "" unless ($dbname and $dbname ne "undef");
 
@@ -34,12 +34,15 @@ if ( $@ ) {
         $dbpass = "" unless ($dbpass and $dbpass ne "undef");
         $dbhost = prompt "Database host (if needed): ", "undef";
         $dbhost = "" unless ($dbhost and $dbhost ne "undef");
+        $dbport = prompt "Port number (if needed): ", "undef";
+        $dbport = "" unless ($dbport and $dbport ne "undef");
 
         my $config = Config::Tiny->new;
         $config->{_} = { dbname => $dbname,
                          dbuser => $dbuser,
                          dbpass => $dbpass,
                          dbhost => $dbhost,
+                         dbport => $dbport,
                        };
         $config->write( "test.conf" );
     } else {

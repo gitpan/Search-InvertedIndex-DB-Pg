@@ -9,6 +9,7 @@ SYNOPSIS
       my $db = Search::InvertedIndex::DB::Pg->new(
             -db_name    => "testdb",
             -hostname   => "test.example.com",
+            -port       => 5432,
             -username   => "testuser",
             -password   => "testpass",
             -table_name => "siindex",
@@ -28,6 +29,7 @@ METHODS
           my $db = Search::InvertedIndex::DB::Pg->new(
                 -db_name    => "testdb",
                 -hostname   => "test.example.com",
+                -port       => 5432,
                 -username   => "testuser",
                 -password   => "testpass",
                 -table_name => "siindex",
@@ -35,7 +37,7 @@ METHODS
           );
 
         "-db_name" and "-table_name" are mandatory. "-lock_mode" defaults to
-        "EX".
+        "EX". "-port is optional" and defaults to not being specified..
 
     open
           $db->open;
@@ -88,10 +90,14 @@ AUTHOR
     Benjamin Franz.
 
 COPYRIGHT
-         Copyright (C) 2003 Kake Pugh.  All Rights Reserved.
+         Copyright (C) 2003-4 Kake Pugh.  All Rights Reserved.
 
     This module is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
+
+CREDITS
+    Module based on work by Michael Cramer and Benjamin Franz. Patch from
+    Cees Hek.
 
 SEE ALSO
     Search::InvertedIndex
